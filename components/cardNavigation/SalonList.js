@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Text,StyleSheet, Image,FlatList,TouchableOpacity, Dimensions,SafeAreaView} from 'react-native'
 import salon from './salon'
 const {width, height} = Dimensions.get('screen');
+
 function SalonList() {
   const navigation = useNavigation()
     return (
@@ -23,7 +24,7 @@ function SalonList() {
             </TouchableOpacity>
           }}
        />
-
+      <View style={styles.bg}/>
       </SafeAreaView>
     )
   }
@@ -43,6 +44,14 @@ function SalonList() {
       position:'absolute',
       bottom:0,
       right:0
+    },
+    bg:{
+      position:'absolute',
+      width,
+      height,
+      backgroundColor:'red',
+      transform:[{ translateY: height}],
+      borderRadius:32,
     }
   })
 export default SalonList
