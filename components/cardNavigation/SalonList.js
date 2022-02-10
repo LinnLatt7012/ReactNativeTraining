@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
 import { View, Text,StyleSheet, Image,FlatList,TouchableOpacity, Dimensions,SafeAreaView} from 'react-native'
+import { SharedElement } from 'react-navigation-shared-element';
 import salon from './salon'
 const {width, height} = Dimensions.get('screen');
 
@@ -15,16 +16,24 @@ function SalonList() {
           renderItem={({item})=>{
             return <TouchableOpacity onPress={()=>navigation.navigate('SalonListDetail',{item})} style={{marginBottom:10,height: height*0.18}} >
               <View style={{flex:1, padding: 10, }}>
-                <View style={[StyleSheet.absoluteFillObject,
-                  {backgroundColor: item.color, borderRadius: 16 }]}/>
-                <Text style={styles.name}>{item.name}</Text>
+                <SharedElement id={`item.${item.key}.bg`} style={[StyleSheet.absoluteFill]}>
+                  <View style={[StyleSheet.absoluteFillObject,
+                    {backgroundColor: item.color, borderRadius: 16 }]}/>
+                </SharedElement>
+                <SharedElement id={`item.${item.key}.name`}>
+                  <Text style={styles.name}>{item.name}</Text>
+                </SharedElement>
                 <Text style={styles.jobTitle}>{item.jobTitle}</Text>
-                <Image source={{uri: item.image }} style={styles.image} />
+                <SharedElement id={`item.${item.key}.image`} style={styles.image}>
+                  <Image source={{uri: item.image }} style={styles.image} />
+                </SharedElement>
               </View>
             </TouchableOpacity>
           }}
        />
+       <SharedElement id="general.bg">
       <View style={styles.bg}/>
+      </SharedElement>
       </SafeAreaView>
     )
   }

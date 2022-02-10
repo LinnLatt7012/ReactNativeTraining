@@ -1,15 +1,21 @@
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useNavigation, useRoute } from '@react-navigation/native'
-import {View, Text, StyleSheet, Dimensions, Image, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, Dimensions, Image,ScrollView,SafeAreaView} from 'react-native'
 import { detailsIcons } from "./salon";
+import * as Animatable from'react-native-animatable'
+import { SharedElement } from "react-navigation-shared-element";
+
+const DURATION =400;
+
 const {width, height} = Dimensions.get('screen');
 const TOP_HEADER_HEIGHT= height *0.3
+
 const SalonListDetails =()=>{
     const navigation = useNavigation()
-    const {params}= useRoute()
-    const {item} = params;
+    const route= useRoute()
+    const {item} = route.params;
     return(
-        <View style={{flex:1}}>
+        <SafeAreaView style={{flex:1}}>
             <AntDesign
             name="arrowleft"
             size={28}
@@ -26,18 +32,29 @@ const SalonListDetails =()=>{
             color={'#333'}
             />
             {/* <View style={{flex:1, padding: 10, }}> */}
-                <View style={[StyleSheet.absoluteFillObject,
-                  {backgroundColor: item.color, borderRadius: 0, height:TOP_HEADER_HEIGHT+32 }]}/>
-                <Text style={styles.name}>{item.name}</Text>
+                <SharedElement id={`item.${item.key}.bg`} style={[StyleSheet.absoluteFill]}>
+                    <View style={[StyleSheet.absoluteFillObject,
+                    {backgroundColor: item.color, borderRadius: 0, height:TOP_HEADER_HEIGHT+32 }]}/>
+                </SharedElement>
+                <SharedElement id={`item.${item.key}.name`}>
+                    <Text style={styles.name}>{item.name}</Text>
+                </SharedElement>
+                
                 {/* <Text style={styles.jobTitle}>{item.jobTitle}</Text> */}
-                <Image source={{uri: item.image }} style={styles.image} />
+                <SharedElement id={`item.${item.key}.image`} >
+                    <Image source={{uri: item.image }} style={styles.image} />
+                </SharedElement>
             {/* </View> */}
+            <SharedElement id="general.bg">
                 <View style={styles.bg}>
-                    <ScrollView>
-                        <View style={{flexDirection:'row', justifyContent:"space-evenly"}}>
+                    <ScrollView >
+                        <View style={{flexDirection:'row', justifyContent:"space-evenly",marginVertical: 2,marginBottom:32}}>
                             {
                                 detailsIcons.map((detail,index)=>{
-                                    return <View key={`${detail.icon}-${index}`} 
+                                    return <Animatable.View 
+                                    animation="bounceIn"
+                                    delay={DURATION+index *100}
+                                    key={`${detail.icon}-${index}`} 
                                     style={{
                                         backgroundColor:detail.color, 
                                         height:42, 
@@ -47,18 +64,27 @@ const SalonListDetails =()=>{
                                         justifyContent:'center'
                                         }}>
                                         <AntDesign name={detail.icon}  size={22} color={'white'} />
-                                    </View>
+                                    </Animatable.View>
                                 })
                             }
                         </View>
                         <View>
-                            {item.categories.map((category)=>{
+                            {item.categories.map((category, index)=>{
                                 return(
-                                    <View key={category.key}>
+                                    <Animatable.View 
+                                    animation="fadeInUp"
+                                    delay={(DURATION*2)+(index*200)}
+                                    key={category.key} 
+                                    style={{marginVertical:10}}>
                                         <Text style={styles.title}>{category.title}</Text>
                                         {category.subcats.map((subcat,index)=>{
                                             return(
-                                                <View style={{flexDirection:'row',alignItems:'center'}}>
+                                                <View style={{
+                                                    flexDirection:'row',
+                                                    alignItems:'center',
+                                                    marginBottom:5,
+                                                    marginLeft:10}}
+                                                    key={index}>
                                                     <View 
                                                         style={{
                                                             height:6,
@@ -72,21 +98,22 @@ const SalonListDetails =()=>{
                                                 </View>
                                             )
                                         })}
-                                    </View>
+                                    </Animatable.View>
                                 )
                             })}
 
                         </View>
                     </ScrollView>
                 </View>
-        </View>
+            </SharedElement>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     name:{
       fontWeight:'700',
-      fontSize: 20,
+      fontSize: 24,
       position:'absolute',
       top:TOP_HEADER_HEIGHT - 40,
       left: 20
@@ -100,19 +127,27 @@ const styles = StyleSheet.create({
       height: height*0.14,
       resizeMode:'contain',
       position:'absolute',
-      top: TOP_HEADER_HEIGHT - (height*0.14),
-      right:0
+      top: TOP_HEADER_HEIGHT - (height*0.14)+10,
+      right:10
     },
     bg:{
       position:'absolute',
       width,
-      height,
+      height:height-TOP_HEADER_HEIGHT-40,
       backgroundColor:'white',
       transform:[{ translateY: TOP_HEADER_HEIGHT}],
       borderRadius:32,
       padding:10,
-      paddingTop: 42,
+      paddingTop: 12,
+    },
+    title:{
+        fontWeight:'700',
+        fontSize:18,
+        marginBottom: 5,
+    },
+    subTitle:{
+        fontSize:14,
+        opacity:0.8,
     }
   })
-
 export default SalonListDetails
