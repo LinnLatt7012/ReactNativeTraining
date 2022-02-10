@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import FlatApp from './components/flatlist/FlatApp';
+import Navigator from './components/cardNavigation/Navigator';
+import SalonList from './components/cardNavigation/SalonList';
 
 export default function App() {
   return (
-      <FlatApp />
+      <Navigator />   
   );
 }
 
