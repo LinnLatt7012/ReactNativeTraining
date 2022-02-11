@@ -3,9 +3,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { enableScreens } from 'react-native-screens';
-import SalonList from './SalonList';
-import SalonListDetails from './SalonListDetails';
+import SalonList from './cardNavigation/SalonList';
+import SalonListDetails from './cardNavigation/SalonListDetails';
 import { StatusBar } from 'expo-status-bar';
+import FlatApp from './flatlist/FlatApp';
+import FirstPage from './FirstPage';
+import ShopApp from './shopApp/ShopApp';
 enableScreens()
 const Stack = createSharedElementStackNavigator();
 export default Navigator= () => {
@@ -13,17 +16,21 @@ export default Navigator= () => {
       <NavigationContainer>
         {/* <StatusBar hidden /> */}
           <Stack.Navigator
-            initialRouteName="Salon"
+            initialRouteName="Home"
             screenOptions={{
               header: ()=>null
             }}
           >
               <Stack.Screen
-                  name="Salon"
+                  name="Home"
+                  component={FirstPage}
+              />
+              <Stack.Screen
+                  name="salonList"
                   component={SalonList}
               />
               <Stack.Screen
-                  name="SalonListDetail"
+                  name="salonListDetail"
                   component={SalonListDetails}
                   sharedElements={(route, otherRoute, showing) => {
                     const {item} = route.params;
@@ -45,6 +52,14 @@ export default Navigator= () => {
                       },
                     ]
                   }}
+              />
+              <Stack.Screen
+                name='flatList'
+                component={FlatApp}
+              />
+              <Stack.Screen
+                name='shopApp'
+                component={ShopApp}
               />
           </Stack.Navigator>
       </NavigationContainer>

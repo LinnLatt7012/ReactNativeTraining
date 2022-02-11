@@ -1,5 +1,5 @@
-import Navigator from './components/cardNavigation/Navigator';
-import SalonList from './components/cardNavigation/SalonList';
+import Navigator from './components/Navigator';
+// import SalonList from './components/cardNavigation/SalonList';
 
 export default function App() {
   return (

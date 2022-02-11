@@ -14,7 +14,7 @@ function SalonList() {
           keyExtractor={item=>item.key}
           contentContainerStyle={{padding: 10}}
           renderItem={({item})=>{
-            return <TouchableOpacity onPress={()=>navigation.navigate('SalonListDetail',{item})} style={{marginBottom:10,height: height*0.18}} >
+            return <TouchableOpacity onPress={()=>navigation.navigate('salonListDetail',{item})} style={{marginBottom:10,height: height*0.18}} >
               <View style={{flex:1, padding: 10, }}>
                 <SharedElement id={`item.${item.key}.bg`} style={[StyleSheet.absoluteFill]}>
                   <View style={[StyleSheet.absoluteFillObject,

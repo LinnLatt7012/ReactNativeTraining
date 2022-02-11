@@ -31,6 +31,21 @@ const SalonListDetails =()=>{
             }}
             color={'#333'}
             />
+            <AntDesign
+            name="arrowright"
+            size={28}
+            style={{
+                padding:12,
+                position: 'absolute',
+                top: 20,
+                right: 10,
+                zIndex:2,
+            }}
+            onPress={()=>{
+                navigation.navigate('flatList');
+            }}
+            color={'#333'}
+            />
             {/* <View style={{flex:1, padding: 10, }}> */}
                 <SharedElement id={`item.${item.key}.bg`} style={[StyleSheet.absoluteFill]}>
                     <View style={[StyleSheet.absoluteFillObject,
@@ -63,7 +78,8 @@ const SalonListDetails =()=>{
                                         alignItems:'center',
                                         justifyContent:'center'
                                         }}>
-                                        <AntDesign name={detail.icon}  size={22} color={'white'} />
+                                        <AntDesign name={detail.icon}  size={22} color={'white'} 
+                                        />
                                     </Animatable.View>
                                 })
                             }
@@ -84,7 +100,7 @@ const SalonListDetails =()=>{
                                                     alignItems:'center',
                                                     marginBottom:5,
                                                     marginLeft:10}}
-                                                    key={index}>
+                                                    key={`${subcat}-${index}`}>
                                                     <View 
                                                         style={{
                                                             height:6,

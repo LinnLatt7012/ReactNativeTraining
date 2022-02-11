@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { StatusBar, Animated, Text, Image, View, StyleSheet, Dimensions} from 'react-native';
 import { transform } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
@@ -120,6 +121,7 @@ const Square =({scrollX})=>{
 }
 export default function FlatApp() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <StatusBar hidden />
@@ -155,7 +157,11 @@ export default function FlatApp() {
                   fontSize:24,
                   marginBottom:10,
                   color:'#fff'
-                }}>
+                }}
+                onPress={()=>{
+                  navigation.navigate('salonList');
+              }}
+                >
                   {item.title}
                 </Text>
                 {/* {console.log(scrollX)} */}
