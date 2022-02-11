@@ -1,5 +1,5 @@
 export const marketingImage =
-'https://img.rawpixel.com/3sds-private/rawpixel_images/website_content/v835-1'
+'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Audio/Boat/255proplus/wf/Boat_1.gif'
 export default [
     {
         type:'Humlan P',
@@ -16,7 +16,7 @@ export default [
         heading:'Vibrant colors',
         description: 'Four on trend colorways to seamlessly suit your style',
         key:'second',
-        color:'#D4AF9F',
+        color:'#6B200F',
         colorName:'brown',
     },
     {

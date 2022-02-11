@@ -1,37 +1,36 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react'
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Animatable from'react-native-animatable'
-import AppLoading from 'expo-app-loading';
-import { useFonts, Inter_900Black,} from '@expo-google-fonts/inter';
-
+import { marketingImage } from './urbanears';
+const {width, height} = Dimensions.get('screen');
 const letterAnimation ={
     0:{opacity:0,  translateY: -42 },
     1:{opacity:1,  translateY: 0 },
 }
-const PlayIcon = () => <AntDesign name='playvideo' size={18} color='black' />
+const DURATION = 300
+
+const animation ={
+    0:{ translateX: width},
+    1:{ translateX: 0}
+}
+const PlayIcon = () => <AntDesign name='playcircleo' size={18} color='black' />
 
 function ShopApp() { 
-    let [fontsLoaded] = useFonts({
-        Inter_900Black,
-      });
-    
-      if (!fontsLoaded) {
-        return <AppLoading />;
-      }
     const navigation = useNavigation();
     const route = useRoute();
     const {item } = { item:{
-        type:'Humlan P',
-        imageUri: require("../../assets/urbanears/urbanearblue.png"),
+        type:'Pamps',
+        imageUri: require("../../assets/urbanears/urbanearbrown.png"),
         heading:'Vibrant colors',
         description: 'Four on trend colorways to seamlessly suit your style',
-        key:'first',
-        color:'#9dcdfa',
-        colorName:'blue',
+        key:'second',
+        color:'#6B200F',
+        colorName:'brown',
+        },
     }
-}
+    const circleSize = Math.sqrt(Math.pow(height ,2) + Math.pow(width,2))
     
   return (
     <SafeAreaView style={{flex:1}}>
@@ -51,22 +50,112 @@ function ShopApp() {
             navigation.goBack();
         }}
         />
-        <View>
-            <View style={{flexDirection: 'row', overflow: 'hidden'}}> 
+        <View style={[StyleSheet.absoluteFillObject,
+            {alignItems:'center', 
+            justifyContent:'center'}
+            ]}>
+            <View style={{
+                position: 'absolute',
+                width: circleSize,
+                height:circleSize,
+                borderRadius: circleSize,
+                opacity: .2,
+                backgroundColor: item.color
+            }}/>
+        </View>
+        <Image source={item.imageUri} style={styles.image} />
+        <View style={{position:'absolute', top: 20, left:5}}>
+            <View style={{flexDirection: 'row', overflow: 'hidden',height:42}}> 
             {item.type.split('').map((letter, index)=>{
                 return <Animatable.Text 
                 useNativeDriver
                 animation={letterAnimation}
-                delay={300+ index*60}
+                delay={DURATION + index*60}
                 key={`${letter}-${index}`} 
                 style={styles.heading}>
                     {letter}
                 </Animatable.Text>
             })}
             </View>
+            <View style={{overflow:'hidden'}}>
+                <Animatable.Text
+                useNativeDriver 
+                animation={letterAnimation}
+                delay={DURATION +50+(item.type.split('').length *60)}
+                style={{
+                    fontSize: 20,
+                    fontWeight: '800',
+                    textTransform: 'uppercase',
+                    color: item.color,
+                    fontFamily: 'Inter_400Regular'
+                }}>
+                    {item.colorName}
+                </Animatable.Text>
+            </View>
         </View>
-    </SafeAreaView >
-  )
+        <View style={{flex: 1, flexDirection:'row',padding:10}}>
+            <Animatable.View style={{
+                flex:.35,
+                justifyContent:'space-between',
+                overflow:'hidden',}}
+            >
+                <Animatable.View 
+                    style={{flex:1, justifyContent:'space-between',backgroundColor:'white',padding: 5,}}
+                    useNativeDriver
+                    animation={animation}
+                    delay={DURATION*1.5}>
+                    <Animatable.View 
+                    useNativeDriver
+                    animation={animation}
+                    delay={DURATION*1.5 +150}>
+                        <Text style={{
+                            fontWeight:'800', 
+                            textTransform:'uppercase', 
+                            fontFamily:'Inter_900Black',
+                            fontSize:12
+                        }}>
+                            Advertisement
+                        </Text>
+                        <Text style={{
+                            fontWeight:'800', 
+                            textTransform:'uppercase', 
+                            fontFamily:'Inter_900Black',
+                            fontSize:12
+                        }}>
+                            Market
+                        </Text>
+                    </Animatable.View> 
+                    <Animatable.View
+                        useNativeDriver
+                        animation={animation}
+                        delay={DURATION*1.5 +150} 
+                        style={{
+                        flexDirection:'row',
+                        alignSelf:'flex-end',
+                        alignItems:'center',
+                        overflow:'hidden'
+                    }}>
+                        <Text style={{
+                            marginRight: 5, 
+                            fontWeight:'700', 
+                            textTransform:'uppercase', 
+                            fontFamily:'Inter_900Black',
+                        }}>Play Video</Text>
+                        <PlayIcon />
+                    </Animatable.View> 
+                </Animatable.View>
+            </Animatable.View>
+            <View style={{flex:.65}} >
+                <Animatable.Image 
+                useNativeDriver
+                    animation={animation}
+                    delay={DURATION*1.5 +300} source={{uri: marketingImage}}  style={[StyleSheet.absoluteFill]}/>
+            </View>
+
+
+        </View>
+    </SafeAreaView >   
+  ) 
 }
 
 const styles = StyleSheet.create({
@@ -75,9 +164,17 @@ const styles = StyleSheet.create({
         color:'#333',
         marginBottom:10,
         letterSpacing: 2,
+        height:42,
         fontWeight:'800',
         textTransform:'uppercase',
         fontFamily: 'Inter_900Black'
+    },
+    image:{
+        width: width * 0.9,
+        height: width*0.9,
+        resizeMode:'contain',
+        alignSelf:'center',
+        marginVertical: 70,
     }
 })
 
