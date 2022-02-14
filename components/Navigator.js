@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import FlatApp from './flatlist/FlatApp';
 import FirstPage from './FirstPage';
 import ShopApp from './shopApp/ShopApp';
+import UrbanList from './shopApp/UrbanList';
 enableScreens()
 const Stack = createSharedElementStackNavigator();
 export default Navigator= () => {
@@ -59,7 +60,36 @@ export default Navigator= () => {
               />
               <Stack.Screen
                 name='shopApp'
-                component={ShopApp}
+                component={UrbanList}
+              />
+              <Stack.Screen
+                  name="UrbanDetail"
+                  component={ShopApp}
+                  sharedElements={(route, otherRoute, showing) => {
+                    const {item} = route.params;
+                      // console.log(item);
+                    return [
+                      {
+                          id: `item.${item.key}.bg`,
+                          animation:'move',
+                          resize:'stretch'
+                      },
+                      {
+                          id:`item.${item.key}.name`,
+                          animation: 'move',
+                          resize: 'clip'
+                      },
+                      {
+                          id:`item.${item.key}.image`,
+                          animation:'move',
+                          resize:'clip'
+                      },
+                      {
+                          id:"general.bg",
+                          
+                      },
+                    ]
+                  }}
               />
           </Stack.Navigator>
       </NavigationContainer>

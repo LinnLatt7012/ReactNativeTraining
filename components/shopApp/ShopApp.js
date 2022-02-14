@@ -4,6 +4,7 @@ import { Dimensions, Image, SafeAreaView, StatusBar, StyleSheet, Text, View } fr
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Animatable from'react-native-animatable'
 import { marketingImage } from './urbanears';
+import { SharedElement } from 'react-navigation-shared-element';
 const {width, height} = Dimensions.get('screen');
 const letterAnimation ={
     0:{opacity:0,  translateY: -42 },
@@ -20,16 +21,7 @@ const PlayIcon = () => <AntDesign name='playcircleo' size={18} color='black' />
 function ShopApp() { 
     const navigation = useNavigation();
     const route = useRoute();
-    const {item } = { item:{
-        type:'Pamps',
-        imageUri: require("../../assets/urbanears/urbanearbrown.png"),
-        heading:'Vibrant colors',
-        description: 'Four on trend colorways to seamlessly suit your style',
-        key:'second',
-        color:'#6B200F',
-        colorName:'brown',
-        },
-    }
+    const {item } = route.params;
     const circleSize = Math.sqrt(Math.pow(height ,2) + Math.pow(width,2))
     
   return (
@@ -50,20 +42,27 @@ function ShopApp() {
             navigation.goBack();
         }}
         />
-        <View style={[StyleSheet.absoluteFillObject,
+        
+            <View 
+            style={[StyleSheet.absoluteFillObject,
+            {alignItems:'center', 
+            justifyContent:'center'}
+            ]}><SharedElement id={`item.${item.key}.bg`} style={[StyleSheet.absoluteFillObject,
             {alignItems:'center', 
             justifyContent:'center'}
             ]}>
-            <View style={{
-                position: 'absolute',
-                width: circleSize,
-                height:circleSize,
-                borderRadius: circleSize,
-                opacity: .2,
-                backgroundColor: item.color
-            }}/>
-        </View>
-        <Image source={item.imageUri} style={styles.image} />
+                <View style={{
+                    position: 'absolute',
+                    width: circleSize,
+                    height:circleSize,
+                    borderRadius: circleSize,
+                    opacity: .2,
+                    backgroundColor: item.color
+                }}/></SharedElement>
+            </View>
+        
+        <SharedElement id={`item.${item.key}.image`}>
+        <Image source={item.imageUri} style={styles.image} /></SharedElement>
         <View style={{position:'absolute', top: 20, left:5}}>
             <View style={{flexDirection: 'row', overflow: 'hidden',height:42}}> 
             {item.type.split('').map((letter, index)=>{
